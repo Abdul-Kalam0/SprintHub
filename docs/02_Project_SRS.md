@@ -58,33 +58,33 @@ This document serves as the primary reference for design, development, testing, 
 
 SprintHub Version 1.0 includes:
 
-* User Authentication
-* User Profiles
-* Workspace Management
-* Role-Based Access Control
-* Project Management
-* Kanban Boards
-* Task Management
-* Comments
-* Attachments
-* Notifications
-* Search
-* Filtering
-* Dashboard
-* Responsive Design
+- User Authentication
+- User Profiles
+- Workspace Management
+- Role-Based Access Control
+- Project Management
+- Kanban Boards
+- Task Management
+- Comments
+- Attachments
+- Notifications
+- Search
+- Filtering
+- Dashboard
+- Responsive Design
 
 ## Excluded
 
 The following features are outside the scope of Version 1.0:
 
-* Native Mobile Apps
-* Payment Integration
-* Video Meetings
-* AI Features
-* Sprint Planning
-* Time Tracking
-* Third-party Integrations
-* Multi-language Support
+- Native Mobile Apps
+- Payment Integration
+- Video Meetings
+- AI Features
+- Sprint Planning
+- Time Tracking
+- Third-party Integrations
+- Multi-language Support
 
 ---
 
@@ -108,10 +108,10 @@ Each task can be assigned to members, include attachments, comments, labels, che
 
 Responsibilities:
 
-* Create workspaces
-* Invite members
-* Manage projects
-* Assign user roles
+- Create workspaces
+- Invite members
+- Manage projects
+- Assign user roles
 
 ---
 
@@ -119,10 +119,10 @@ Responsibilities:
 
 Responsibilities:
 
-* Create projects
-* Manage boards
-* Assign tasks
-* Monitor progress
+- Create projects
+- Manage boards
+- Assign tasks
+- Monitor progress
 
 ---
 
@@ -130,10 +130,10 @@ Responsibilities:
 
 Responsibilities:
 
-* Update tasks
-* Add comments
-* Upload attachments
-* Complete assigned work
+- Update tasks
+- Add comments
+- Upload attachments
+- Complete assigned work
 
 ---
 
@@ -141,9 +141,9 @@ Responsibilities:
 
 Responsibilities:
 
-* Manage users
-* Monitor platform activity
-* Maintain platform settings
+- Manage users
+- Monitor platform activity
+- Maintain platform settings
 
 ---
 
@@ -153,14 +153,14 @@ Responsibilities:
 
 Features:
 
-* User Registration
-* Login
-* Logout
-* JWT Authentication
-* Refresh Tokens
-* Forgot Password
-* Reset Password
-* Email Verification
+- User Registration
+- Login
+- Logout
+- JWT Authentication
+- Refresh Tokens
+- Forgot Password
+- Reset Password
+- Email Verification
 
 ---
 
@@ -168,10 +168,10 @@ Features:
 
 Users can:
 
-* Update Profile
-* Upload Avatar
-* Change Password
-* View Personal Activity
+- Update Profile
+- Upload Avatar
+- Change Password
+- View Personal Activity
 
 ---
 
@@ -179,12 +179,12 @@ Users can:
 
 Workspace Owners can:
 
-* Create Workspace
-* Edit Workspace
-* Delete Workspace
-* Invite Members
-* Remove Members
-* Assign Roles
+- Create Workspace
+- Edit Workspace
+- Delete Workspace
+- Invite Members
+- Remove Members
+- Assign Roles
 
 ---
 
@@ -192,10 +192,10 @@ Workspace Owners can:
 
 Users can:
 
-* Create Project
-* Update Project
-* Archive Project
-* Delete Project
+- Create Project
+- Update Project
+- Archive Project
+- Delete Project
 
 ---
 
@@ -203,17 +203,17 @@ Users can:
 
 Each project supports:
 
-* Multiple Boards
-* Multiple Columns
-* Drag-and-Drop Task Movement
+- Multiple Boards
+- Multiple Columns
+- Drag-and-Drop Task Movement
 
 Default columns:
 
-* Backlog
-* To Do
-* In Progress
-* Review
-* Completed
+- Backlog
+- To Do
+- In Progress
+- Review
+- Completed
 
 ---
 
@@ -221,17 +221,17 @@ Default columns:
 
 Each task includes:
 
-* Title
-* Description
-* Status
-* Priority
-* Due Date
-* Assignee
-* Labels
-* Checklist
-* Attachments
-* Comments
-* Activity History
+- Title
+- Description
+- Status
+- Priority
+- Due Date
+- Assignee
+- Labels
+- Checklist
+- Attachments
+- Comments
+- Activity History
 
 ---
 
@@ -239,11 +239,11 @@ Each task includes:
 
 Users can:
 
-* Add Comments
-* Reply to Comments
-* Upload Files
-* Mention Members
-* Receive Notifications
+- Add Comments
+- Reply to Comments
+- Upload Files
+- Mention Members
+- Receive Notifications
 
 ---
 
@@ -251,12 +251,12 @@ Users can:
 
 Dashboard displays:
 
-* Active Projects
-* Completed Tasks
-* Pending Tasks
-* Overdue Tasks
-* Team Productivity
-* Recent Activity
+- Active Projects
+- Completed Tasks
+- Pending Tasks
+- Overdue Tasks
+- Team Productivity
+- Recent Activity
 
 ---
 
@@ -264,18 +264,18 @@ Dashboard displays:
 
 Users can search by:
 
-* Project
-* Task
-* Member
-* Workspace
+- Project
+- Task
+- Member
+- Workspace
 
 Users can filter by:
 
-* Status
-* Priority
-* Due Date
-* Assignee
-* Labels
+- Status
+- Priority
+- Due Date
+- Assignee
+- Labels
 
 ---
 
@@ -283,46 +283,46 @@ Users can filter by:
 
 ## Performance
 
-* Average API response time below 500 ms.
-* Pagination for large datasets.
-* Lazy loading where applicable.
+- Average API response time below 500 ms.
+- Pagination for large datasets.
+- Lazy loading where applicable.
 
 ### Security
 
-* JWT Authentication
-* Refresh Tokens
-* HTTP-only Cookies
-* Password Hashing (bcrypt)
-* Helmet
-* Rate Limiting
-* Input Validation
-* CORS
-* Protection against common web vulnerabilities
+- JWT Authentication
+- Refresh Tokens
+- HTTP-only Cookies
+- Password Hashing (bcrypt)
+- Helmet
+- Rate Limiting
+- Input Validation
+- CORS
+- Protection against common web vulnerabilities
 
 ### Scalability
 
-* Modular architecture
-* RESTful APIs
-* Reusable React components
-* Service-based backend organization
+- Modular architecture
+- RESTful APIs
+- Reusable React components
+- Service-based backend organization
 
 ### Availability
 
-* Cloud deployment
-* Environment-based configuration
-* Responsive web application
+- Cloud deployment
+- Environment-based configuration
+- Responsive web application
 
 ---
 
 # 8. Business Rules
 
-* Every user must belong to at least one workspace to collaborate.
-* Every project belongs to exactly one workspace.
-* Only Workspace Owners can delete a workspace.
-* Only authorized members can access workspace resources.
-* Every task belongs to one project.
-* Every task has one current status.
-* Role-based permissions are enforced for protected operations.
+- Every user must belong to at least one workspace to collaborate.
+- Every project belongs to exactly one workspace.
+- Only Workspace Owners can delete a workspace.
+- Only authorized members can access workspace resources.
+- Every task belongs to one project.
+- Every task has one current status.
+- Role-based permissions are enforced for protected operations.
 
 ---
 
@@ -356,17 +356,17 @@ As a user, I want to view project statistics so that I can monitor progress.
 
 ## Assumptions
 
-* Users have internet access.
-* Users access the application through modern web browsers.
-* Free-tier cloud services are sufficient for Version 1.0.
+- Users have internet access.
+- Users access the application through modern web browsers.
+- Free-tier cloud services are sufficient for Version 1.0.
 
 ## Constraints
 
-* Budget: ₹0
-* MERN Stack only
-* JavaScript only
-* Free-tier cloud services only
-* Open-source technologies whenever possible
+- Budget: ₹0
+- MERN Stack only
+- JavaScript only
+- Free-tier cloud services only
+- Open-source technologies whenever possible
 
 ---
 
@@ -374,12 +374,11 @@ As a user, I want to view project statistics so that I can monitor progress.
 
 SprintHub Version 1.0 will be considered complete when:
 
-* Authentication works securely.
-* Workspace management is functional.
-* Project and Kanban board management is operational.
-* Task management supports assignment, comments, and attachments.
-* Search and filtering function correctly.
-* Dashboard provides meaningful project insights.
-* Responsive design works across desktop, tablet, and mobile devices.
-* Frontend and backend are successfully deployed.
-* Documentation is complete and up to date.
+- Authentication works securely.
+- Workspace management is functional.
+- Project and Kanban board management is operational.
+- Task management supports assignment, comments, and attachments.
+- Search and filtering function correctly.
+- Dashboard provides meaningful project insights.
+- Responsive design works across desktop, tablet, and mobile devices.
+- Frontend and backend are successfully deployed.
