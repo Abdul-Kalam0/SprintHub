@@ -368,8 +368,6 @@ As a user, I want to view project statistics so that I can monitor progress.
 - Free-tier cloud services only
 - Open-source technologies whenever possible
 
----
-
 # 11. Acceptance Criteria
 
 SprintHub Version 1.0 will be considered complete when:
