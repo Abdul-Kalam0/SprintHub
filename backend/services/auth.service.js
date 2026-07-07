@@ -1,4 +1,5 @@
 import UserModel from "../models/User.js";
+import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { generateAccessToken, generateRefreshToken } from "../utils/jwt.js";
 
@@ -92,7 +93,7 @@ export const logoutUser = async (refreshToken) => {
     throw error;
   }
 
-  const jwtPayload = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_EXPIRY);
+  const jwtPayload = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
 
   const user = await UserModel.findByIdAndUpdate(jwtPayload.id, {
     refreshToken: null,
@@ -103,4 +104,30 @@ export const logoutUser = async (refreshToken) => {
     error.statusCode = 404;
     throw error;
   }
+};
+
+export const refreshToken = async (refreshToken) => {
+  if (!refreshToken) {
+    const error = new Error("Refresh token is required");
+    error.statusCode = 404;
+    throw error;
+  }
+
+  const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+
+  const user = await UserModel.findById(decoded.id);
+  if (!user) {
+    const error = new Error("User not found");
+    error.statusCode = 404;
+    throw error;
+  }
+
+  //validate refresh token
+  if (user.refreshToken !== refreshToken) {
+    const error = new Error("Invalid refresh token");
+    error.statusCode = 401;
+    throw error;
+  }
+
+  return generateAccessToken(user);
 };

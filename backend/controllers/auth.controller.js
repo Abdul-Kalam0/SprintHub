@@ -1,4 +1,8 @@
-import { loginUser, registerUser } from "../services/auth.service.js";
+import {
+  loginUser,
+  logoutUser,
+  registerUser,
+} from "../services/auth.service.js";
 import UserModel from "../models/User.js";
 
 export const register = async (req, res, next) => {
@@ -40,9 +44,9 @@ export const login = async (req, res, next) => {
   }
 };
 
-export const logout = (req, res) => {
+export const logout = async (req, res, next) => {
   try {
-    await logoutUser(req.cookies.refreshToken)
+    await logoutUser(req.cookies.refreshToken);
 
     res.clearCookie("accessToken", {
       httpOnly: true,
@@ -56,15 +60,43 @@ export const logout = (req, res) => {
     });
 
     res.status(200).json({
-        success:true,
-        message:"Logout successful"
-    })
-    
+      success: true,
+      message: "Logout successful",
+    });
   } catch (error) {
-    next(error)
+    next(error);
   }
 };
-export const googleLogin = () => {};
 
-export const refreshAccessToken = () => {};
-export const getCurrentUser = () => {};
+export const getCurrentUser = async (req, res, next) => {
+  try {
+    return res.status(200).json({
+      success: true,
+      data: req.user,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const refreshAccessToken = async (req, res, next) => {
+  try {
+    const accessToken = await refreshToken(req.cookies.refresToken);
+
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "strict",
+      maxAge: 15 * 60 * 1000, // 15 minutes
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Access token refreshed successfully",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const googleLogin = () => {};
