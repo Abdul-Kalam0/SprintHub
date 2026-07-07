@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import authRoutes from "./routes/auth.routes.js";
 import errorHandler from "./middlewares/error.middleware.js";
+import workspaceRoutes from "./routes/workspace.routes.js";
 
 dotenv.config();
 const app = express();
@@ -19,7 +20,11 @@ app.get("/api/health", (req, res) => {
   });
 });
 
+// User route
 app.use("/api/auth", authRoutes);
+
+// Workspace route
+app.use("/api/workspaces", workspaceRoutes);
 
 // ✅ Always the last middleware
 app.use(errorHandler);
