@@ -23,4 +23,7 @@ const workspaceMemberSchema = new mongoose.Schema(
   },
 );
 
+// Prevent duplicate membership
+workspaceMemberSchema.index({ workspace: 1, user: 1 }, { unique: true });
+
 export default mongoose.model("WorkspaceMember", workspaceMemberSchema);

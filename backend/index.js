@@ -28,7 +28,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/workspaces", workspaceRoutes);
 
 // Workspace members
-app.use("/api/members", memberRoutes);
+app.use("/api/workspaces", memberRoutes);
 
 // ✅ Always the last middleware
 app.use(errorHandler);

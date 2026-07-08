@@ -1,4 +1,5 @@
 import WorkspaceModel from "../models/Workspace.js";
+import MemberModel from "../models/Member.js";
 
 export const createWorkspace = async (userId, workspaceName) => {
   if (!workspaceName) {
@@ -11,6 +12,12 @@ export const createWorkspace = async (userId, workspaceName) => {
   const workspace = await WorkspaceModel.create({
     name: workspaceName,
     owner: userId,
+  });
+
+  await MemberModel.create({
+    workspace: workspace._id,
+    user: userId,
+    role: "owner",
   });
 
   return workspace;
@@ -65,6 +72,10 @@ export const deleteWorkspace = async (workspaceId, userId) => {
     error.statusCode = 404;
     throw error;
   }
+
+  await MemberModel.deleteMany({
+    workspace: workspaceId,
+  });
 
   return deletedWorkspace;
 };
