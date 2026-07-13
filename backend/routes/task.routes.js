@@ -9,10 +9,10 @@ import {
 import { authenticate } from "../middlewares/authenticate.middleware.js";
 const router = express.Router();
 
-app.post("/projects/:projectId/tasks", authenticate, createTask);
-app.use("/projects/:projectId/tasks", authenticate, getAllTasks);
-app.use("/tasks/:taskId", getTask);
-app.patch("/tasks/:taskId", authenticate, updateTask);
-app.delete("/tasks/:taskId", authenticate, deleteTask);
+router.post("/projects/:projectId/tasks", authenticate, createTask);
+router.use("/projects/:projectId/tasks", authenticate, getAllTasks);
+router.use("/tasks/:taskId", getTask);
+router.patch("/tasks/:taskId", authenticate, updateTask);
+router.delete("/tasks/:taskId", authenticate, deleteTask);
 
 export default router;
