@@ -7,6 +7,7 @@ import errorHandler from "./middlewares/error.middleware.js";
 import workspaceRoutes from "./routes/workspace.routes.js";
 import memberRoutes from "./routes/workspaceMember.routes.js";
 import projectRoutes from "./routes/project.routes.js";
+import taskRoutes from "./routes/task.routes.js";
 
 dotenv.config();
 const app = express();
@@ -28,12 +29,14 @@ app.use("/api/auth", authRoutes);
 // Workspace route
 app.use("/api/workspaces", workspaceRoutes);
 
-// Workspace members
+// Workspace members routes
 app.use("/api/workspaces", memberRoutes);
 
-//Project
+//Project routes
 app.use("/api/workspaces", projectRoutes);
 
+//Task routes
+app.use("/api", taskRoutes);
 // ✅ Always the last middleware
 app.use(errorHandler);
 export default app;
