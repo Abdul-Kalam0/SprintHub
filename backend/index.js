@@ -36,7 +36,7 @@ app.use("/api/workspaces", memberRoutes);
 app.use("/api/workspaces", projectRoutes);
 
 //Task routes
-app.use("/api", taskRoutes);
+app.use("/api/projects", taskRoutes);
 // ✅ Always the last middleware
 app.use(errorHandler);
 export default app;

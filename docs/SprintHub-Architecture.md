@@ -634,7 +634,6 @@ Notifications
 - Always design the flow before writing code.
 - Consistency is more important than micro-optimizations.
 
-
 # Module Development Convention (Locked)
 
 Every new SprintHub module must follow the same design-first approach.
@@ -649,9 +648,9 @@ Always complete the following steps first.
 
 Ask:
 
-* What problem does this module solve?
-* How does it fit into SprintHub?
-* Which parent resource does it belong to?
+- What problem does this module solve?
+- How does it fit into SprintHub?
+- Which parent resource does it belong to?
 
 Example:
 
@@ -701,12 +700,12 @@ Only after all APIs are finalized do we move to implementation.
 
 Before writing services:
 
-* Fields
-* Relationships
-* References
-* Indexes
-* Enums
-* Default values
+- Fields
+- Relationships
+- References
+- Indexes
+- Enums
+- Default values
 
 Example:
 
@@ -810,10 +809,10 @@ req.query
 
 Examples:
 
-* Owner cannot remove themselves.
-* Duplicate members are not allowed.
-* Only workspace owners can add members.
-* Workspace must exist before adding members.
+- Owner cannot remove themselves.
+- Duplicate members are not allowed.
+- Only workspace owners can add members.
+- Workspace must exist before adding members.
 
 Every API must define its business rules before coding.
 
@@ -883,8 +882,8 @@ Services never send responses.
 
 They only:
 
-* return data
-* or throw errors
+- return data
+- or throw errors
 
 ---
 
@@ -916,14 +915,14 @@ Controllers never contain business logic.
 
 For every API, test:
 
-* Success case
-* Validation errors
-* Unauthorized request
-* Forbidden request
-* Resource not found
-* Duplicate/conflict
-* Invalid ObjectId
-* Edge cases
+- Success case
+- Validation errors
+- Unauthorized request
+- Forbidden request
+- Resource not found
+- Duplicate/conflict
+- Invalid ObjectId
+- Edge cases
 
 A module is considered complete only after all endpoints have been tested successfully.
 
@@ -958,3 +957,130 @@ A SprintHub module is complete only when all of the following are done:
 ✅ Postman testing completed
 
 Only after this checklist is complete do we move to the next module.
+
+---
+
+# Additional SprintHub Architecture (Locked)
+
+## PATCH API Convention
+
+Every PATCH API follows:
+
+Validate Existing Resource
+↓
+Compute Final Values
+↓
+Validate Final State
+↓
+Business Rules
+↓
+Update Resource
+↓
+Return Updated Resource
+
+Always validate the final state (e.g. `const finalName = name ?? existing.name`).
+
+## Duplicate Validation
+
+- Validate duplicates in the service.
+- Protect against race conditions with MongoDB compound unique indexes.
+
+Examples:
+
+- Project → `(workspace, name)`
+- Task → `(project, title)`
+
+## Ownership Validation
+
+Never authorize using `createdBy`.
+
+Always validate through relationships:
+
+Task → Project → Workspace → Owner
+
+Comment → Task → Project → Workspace → Owner
+
+## Date Validation
+
+Convert to `Date` objects before comparing.
+
+Validate only when all required dates exist.
+
+## Hybrid Routing Convention
+
+Parent resource operations:
+
+- POST /api/workspaces/:workspaceId/members
+- GET /api/workspaces/:workspaceId/members
+- POST /api/workspaces/:workspaceId/projects
+- GET /api/workspaces/:workspaceId/projects
+- POST /api/projects/:projectId/tasks
+- GET /api/projects/:projectId/tasks
+
+Existing resource operations:
+
+- GET /api/workspaces/members/:memberId
+- PATCH /api/workspaces/members/:memberId
+- DELETE /api/workspaces/members/:memberId
+
+- GET /api/workspaces/projects/:projectId
+- PATCH /api/workspaces/projects/:projectId
+- DELETE /api/workspaces/projects/:projectId
+
+- GET /api/projects/tasks/:taskId
+- PATCH /api/projects/tasks/:taskId
+- DELETE /api/projects/tasks/:taskId
+
+## Validation Order
+
+Workspace
+↓
+Project
+↓
+Task
+↓
+Comment
+
+## Task Business Rules
+
+- Title required.
+- Unique title within a project.
+- Assigned user must be a workspace member.
+- Task due date must remain within the project's duration (when project dates exist).
+
+## Standard Response
+
+Success:
+{
+"success": true,
+"message": "...",
+"data": {}
+}
+
+Failure:
+{
+"success": false,
+"message": "..."
+}
+
+## API Development Checklist
+
+1. Identify collections.
+2. Identify resources to validate.
+3. Separate trusted/untrusted input.
+4. Define business rules.
+5. Design validation flow.
+6. Implement service.
+7. Implement controller.
+8. Test success, validation, authorization, duplicates, not-found and edge cases.
+
+## SprintHub Principles
+
+- Thin controllers.
+- Business logic in services.
+- Models define schema and indexes.
+- Middleware handles cross-cutting concerns.
+- Validate before database operations.
+- Use compound indexes for uniqueness.
+- Never trust client input.
+- Keep architecture consistent.
