@@ -2,15 +2,26 @@ import WorkspaceModel from "../models/Workspace.js";
 import MemberModel from "../models/Member.js";
 
 export const createWorkspace = async (userId, workspaceName) => {
-  if (!workspaceName) {
+  if (!workspaceName.trim()) {
     const error = new Error("workspace name is required");
     error.statusCode = 400;
     throw error;
   }
 
+  //duplicate workspace
+  const existingWorkspace = await WorkspaceModel.findOne({
+    owner: userId,
+    name: workspaceName.trim(),
+  });
+  if (existingWorkspace) {
+    const error = new Error("Workspace with this name already exists");
+    error.statusCode = 409;
+    throw error;
+  }
+
   // Create new workspace
   const workspace = await WorkspaceModel.create({
-    name: workspaceName,
+    name: workspaceName.trim(),
     owner: userId,
   });
 

@@ -1,4 +1,4 @@
-import mongoose, { mongo } from "mongoose";
+import mongoose from "mongoose";
 
 const workspaceSchema = new mongoose.Schema(
   {
@@ -15,6 +15,16 @@ const workspaceSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
+  },
+);
+
+workspaceSchema.index(
+  {
+    owner: 1,
+    name: 1,
+  },
+  {
+    unique: true,
   },
 );
 
