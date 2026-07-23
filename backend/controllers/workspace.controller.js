@@ -45,7 +45,7 @@ export const updateWorkspace = async (req, res, next) => {
     const updatedWorkspace = await updateWorkspaceService(
       req.params.id,
       req.user._id,
-      req.body.name,
+      req.body,
     );
 
     return res.status(200).json({
