@@ -10,7 +10,7 @@ export default function PublicRoute({ children }) {
 
   useEffect(() => {
     if (!loading && user) {
-      router.replace("/dashboard");
+      router.replace("/overview");
     }
   }, [loading, user, router]);
 

@@ -33,6 +33,7 @@ export default function LoginPage() {
         email: "",
         password: "",
       });
+      alert(data.message || "Logged in successful");
     } catch (error) {
       alert(error.response?.data?.message || "Something went wrong");
     } finally {
@@ -54,6 +55,8 @@ export default function LoginPage() {
             value={formData.email}
             onChange={handleChange}
           />
+          <br />
+          <br />
           <input
             type="password"
             name="password"
@@ -63,6 +66,8 @@ export default function LoginPage() {
             value={formData.password}
             onChange={handleChange}
           />
+          <br />
+          <br />
           <button type="submit" disabled={isSubmitting}>
             {isSubmitting ? "Logging in..." : "Login"}
           </button>

@@ -7,6 +7,13 @@ const workspaceSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+
+    description: {
+      type: String,
+      trim: true,
+      default: "",
+    },
+
     owner: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
@@ -20,8 +27,8 @@ const workspaceSchema = new mongoose.Schema(
 
 workspaceSchema.index(
   {
-    owner: 1,
     name: 1,
+    owner: 1,
   },
   {
     unique: true,
