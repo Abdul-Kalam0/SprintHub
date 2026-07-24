@@ -41,19 +41,100 @@ export const createWorkspace = async (userId, data) => {
 };
 
 export const getAllWorkspace = async (userId) => {
-  return await WorkspaceModel.find({ owner: userId }).sort({ createdAt: -1 });
+  // return await WorkspaceModel.find({ owner: userId }).sort({ createdAt: -1 });
+  const workspaces = await WorkspaceModel.aggregate([
+    {
+      $match: {
+        owner: new mongoose.Types.ObjectId(userId),
+      },
+    },
+    {
+      $lookup: {
+        from: "projects",
+        localField: "_id",
+        foreignField: "workspace",
+        as: "projects",
+      },
+    },
+    {
+      $lookup: {
+        from: "workspacemembers",
+        localField: "_id",
+        foreignField: "workspace",
+        as: "members",
+      },
+    },
+    {
+      $addFields: {
+        projectCount: {
+          $size: "$projects",
+        },
+        memberCount: {
+          $size: "$members",
+        },
+      },
+    },
+    {
+      $project: {
+        projects: 0,
+        members: 0,
+      },
+    },
+    {
+      $sort: {
+        createdAt: -1,
+      },
+    },
+  ]);
+  return workspaces;
 };
 export const getWorkspace = async (workspaceId, userId) => {
-  const workspace = await WorkspaceModel.findOne({
-    _id: workspaceId,
-    owner: userId,
-  });
-  if (!workspace) {
+  const workspace = await WorkspaceModel.aggregate([
+    {
+      $match: {
+        _id: new mongoose.Types.ObjectId(workspaceId),
+        owner: new mongoose.Types.ObjectId(userId),
+      },
+    },
+    {
+      $lookup: {
+        from: "projects",
+        localField: "_id",
+        foreignField: "workspace",
+        as: "projects",
+      },
+    },
+    {
+      $lookup: {
+        from: "workspacemembers",
+        localField: "_id",
+        foreignField: "workspace",
+        as: "members",
+      },
+    },
+    {
+      $addFields: {
+        projectCount: {
+          $size: "$projects",
+        },
+        memberCount: {
+          $size: "$members",
+        },
+      },
+    },
+    {
+      $project: {
+        projects: 0,
+        members: 0,
+      },
+    },
+  ]);
+  if (!workspace[0]) {
     const error = new Error("Workspace not found");
     error.statusCode = 404;
     throw error;
   }
-  return workspace;
+  return workspace[0];
 };
 
 export const updateWorkspace = async (workspaceId, userId, data) => {
@@ -82,13 +163,13 @@ export const updateWorkspace = async (workspaceId, userId, data) => {
     updateData.name = name.trim();
   }
   if (description !== undefined) {
-    updateData.description = description.trim();
+    updateData.description = description?.trim() || "";
   }
 
   const updatedWorkspace = await WorkspaceModel.findOneAndUpdate(
     { _id: workspaceId, owner: userId },
     updateData,
-    { new: true },
+    { new: true, runValidators: true },
   );
 
   if (!updatedWorkspace) {
